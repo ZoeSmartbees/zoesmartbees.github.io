@@ -1,17 +1,17 @@
+
+
+
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-<!-- Google tag (gtag.js) -->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-TYDG2HHTQZ"></script>
-  <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag('js', new Date());
-    gtag('config', 'G-TYDG2HHTQZ');
-    
 
-  </script>
-  
+   <!-- Google Tag Manager -->
+    <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+    'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+    })(window,document,'script','dataLayer','GTM-MZN747SL');</script>
+    <!-- End Google Tag Manager -->
 
   <meta charset="UTF-8" />
   <title>Smoke test</title>
@@ -27,19 +27,30 @@
 
   <button id="red-btn">Click red button</button>
 
-
   <script>
-    // CRÉE la dataLayer si GTM n'est pas chargé
+    // dataLayer existe même si GA4 est bloqué
     window.dataLayer = window.dataLayer || [];
-    gtag('event', 'test_boot', {source: 'check_click'});
+    
+
+    const goNext = () => { window.location.assign('/next'); };
+
     document.getElementById('red-btn').addEventListener('click', () => {
-    // envoie un event GA4
-    gtag('event', 'click_red_button', {
-      button_color: 'red',
-      page_location: window.location.href
+      let navigated = false;
+      dataLayer.push({
+        event:'red-btn-click',
+        prop: 'test'
+        })
+      // Fallback au cas où l'event_callback ne se déclenche pas (bloqueur / refus consent)
+      const timer = setTimeout(() => {
+        if (!navigated) {
+          navigated = true;
+          goNext();
+        }
+      }, 500); // 500 ms suffit pour un smoke test
+
+ 
+    
     });
-    console.log('[GA4] click_red_button envoyé');
-  });
   </script>
 </body>
 </html>

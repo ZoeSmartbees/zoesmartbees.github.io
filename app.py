@@ -16,3 +16,6 @@ if __name__ == "__main__":
 
 
 # le site se trouve sur http://dev.monsite.local:5000/
+
+
+#je fais u test
